@@ -1,0 +1,16 @@
+:root {
+	--team-x-color: red;
+	--team-x-color-dark: darkred;
+	--team-o-color: blue;
+	--team-o-color-dark: darkblue;
+}
+body {
+	font-family: Helvetica, sans-serif;
+}
+.colored-x {
+	color: var(--team-x-color);
+}
+
+.colored-o {
+	color: var(--team-o-color);
+}
