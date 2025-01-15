@@ -5,15 +5,15 @@ import { deepUpdate } from '../../../shared/lib';
 const URL = 'http://localhost:3000'; // Replace with your server URL
 const socket = io(URL);
 socket.on('connect', () => {
-	console.log('Connected to server');
+	console.log('[Socket] Connected to server');
 });
 
 socket.on('disconnect', () => {
-	console.log('Disconnected from server');
+	console.log('[Socket] Disconnected from server');
 });
 
 socket.on('gameUpdate', (data) => {
-	console.log(data);
+	console.log('[Socket] Received update')
 	deepUpdate(store.game, data);
 });
 

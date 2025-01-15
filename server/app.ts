@@ -34,10 +34,8 @@ game.voting = [
 setInterval(() => {
 	if (game.status.type === 'vote') {
 		game.applyVotes();
-		console.log('outcome',game.applyOutcome());
-		console.log(game.status);
+		game.applyOutcome();
 		if (game.status.type === 'vote') {
-			console.log('vote switch');
 			game.updateStatus({
 				type: 'vote',
 				actor: game.status.actor === 'x' ? 'o' : 'x'

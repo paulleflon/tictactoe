@@ -14,7 +14,6 @@ const innerBarRef = ref<HTMLElement | null>(null);
 const statusMessage = computed(() => formatStatusMessage(props.status));
 onMounted(() => {
 	const val = (10_000 - Date.now() + props.status.timestamp.getTime()) / 10_000 * 100;
-	console.log(val);
 	innerBarRef.value!.style.width = `${val}%`;
 	setTimeout(() => {
 		innerBarRef.value!.style.width = '';
