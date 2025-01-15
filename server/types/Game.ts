@@ -52,6 +52,8 @@ export default class Game implements IGame{
 		this.io.emit('gameUpdate', data);
 	}
 	addVote(id: string, cell: number) {
+		if (this.grid[cell] !== null)
+			return;
 		if (this.votes[id] === cell)
 			delete this.votes[id];
 		else 

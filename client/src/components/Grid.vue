@@ -13,7 +13,7 @@ const props = defineProps<{
 const hasVoted = ref(false);
 
 const vote = (cell: number) => {
-	if (!hasVoted.value && props.status.type === 'vote' && props.status.actor === store.team) {
+	if (!hasVoted.value && props.status.type === 'vote' && props.status.actor === store.team && props.cells[cell] === null) {
 		socket.emit('vote', cell);
 		hasVoted.value = true;
 	}
