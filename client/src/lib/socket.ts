@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import { store } from './store';
 import { deepUpdate } from '../../../shared/lib';
+import { watch } from 'vue';
 
 const URL = 'http://localhost:3000'; // Replace with your server URL
 const socket = io(URL);
@@ -17,5 +18,14 @@ socket.on('gameUpdate', (data) => {
 	deepUpdate(store.game, data);
 	store.game!.status.timestamp = new Date(store.game!.status.timestamp);
 });
+
+watch(
+	() => store.team,
+	(newTeam, oldTeam) => {
+		if (newTeam === oldTeam || newTeam === null) return;
+		localStorage.setItem('3t_team', newTeam || '');
+		socket.emit('teamPick', oldTeam, newTeam);
+	},
+);
 
 export default socket;
