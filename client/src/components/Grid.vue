@@ -2,19 +2,32 @@
 import coloredTeam from '@/lib/coloredTeam';
 import type { Grid, VotingGrid } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
-
+import { store } from '@/lib/store';
+import socket from '@/lib/socket';
+import { ref, watch } from 'vue';
 const props = defineProps<{
 	cells: Grid,
 	votes: VotingGrid,
 	status: Status
 }>();
+const hasVoted = ref(false);
+
+const vote = (cell: number) => {
+	if (!hasVoted.value && props.status.type === 'vote' && props.status.actor === store.team) {
+		socket.emit('vote', cell);
+		hasVoted.value = true;
+	}
+};
+watch(() => props.status, () => {
+	hasVoted.value = false;
+}, { deep: true });
 </script>
 
 <template>
 	<table>
 		<tbody>
 			<tr v-for='i in 3'>
-				<td v-for='j in 3'>
+				<td v-for='j in 3' @click='vote(3 * (i - 1) + j - 1)'>
 					<div v-if='props.cells[3 * (i - 1) + j - 1] !== null'
 						v-html='coloredTeam(props.cells[3 * (i - 1) + j - 1])'>
 					</div>
@@ -59,6 +72,7 @@ td {
 		background-color: #f0f0f0;
 	}
 }
+
 .vote-count {
 	position: absolute;
 	bottom: 0;

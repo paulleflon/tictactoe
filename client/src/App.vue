@@ -14,7 +14,13 @@ onMounted(() => {
 	fetch('http://localhost:3000/api/game')
 		.then(res => res.json())
 		.then((data: IGame) => {
-			store.game = data;
+			store.game = {
+				...data,
+				status: {
+					...data.status,
+					timestamp: new Date(data.status.timestamp)
+				}
+			};
 			loading.value = false;
 		});
 })

@@ -29,6 +29,34 @@ game.grid = [
 game.voting = [
 	0,0,0,0,5,10,0,0,1
 ];
+
+// Game Loop
+setInterval(() => {
+	if (game.status.type === 'vote') {
+		game.applyVotes();
+		console.log('outcome',game.applyOutcome());
+		console.log(game.status);
+		if (game.status.type === 'vote') {
+			console.log('vote switch');
+			game.updateStatus({
+				type: 'vote',
+				actor: game.status.actor === 'x' ? 'o' : 'x'
+			});
+		}
+	} else {
+		game.update({
+			status: {
+				type: 'vote',
+				actor: game.status.actor === 'x' ? 'o' : 'x',
+				timestamp: new Date()
+			},
+			grid: Array(9).fill(null),
+			voting: Array(9).fill(null)
+		})
+	}
+}, 3_000);	
+
+
 app.get('/api/game', (req, res) => {
 	res.json(game.toJSON());
 });

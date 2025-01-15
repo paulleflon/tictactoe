@@ -2,6 +2,7 @@ import { CellValue, Grid, VotingGrid } from '@shared/types/Grid';
 import { IGame } from '@shared/types/IGame';
 import Status from '@shared/types/Status';
 import TeamData from '@shared/types/TeamData';
+import {deepUpdate} from '@shared/lib';
 import { Server } from 'socket.io';
 
 export default class Game implements IGame{
@@ -35,41 +36,52 @@ export default class Game implements IGame{
 			...status,
 			timestamp: new Date()
 		};
+		this.io.emit('gameUpdate', {status: this.status});
 	}
 
 	update(data: Partial<IGame>) {
-		function updateObj(obj: any, data: any) {
-			for (const key in data) {
-				if (typeof data[key] === 'object' && data[key] !== null)
-					updateObj(obj[key], data[key]);
-				else
-					obj[key] = data[key];
-			}
-		}
-		updateObj(this, data);
+		deepUpdate(this, data);
 		this.io.emit('gameUpdate', data);
 	}
 	addVote(cell: number) {
 		this.voting[cell]++;
-		this.io.emit('newVote', cell, this.voting[cell]);
+		this.io.emit('gameUpdate', {voting: this.voting});
 	}
 
-	checkOutcome(): CellValue | 'tie' {
+	applyOutcome(): CellValue | 'tie' {
 		const winPatterrns = [
 			[0,1,2], [3,4,5], [6,7,8], // Horizontal
 			[0,3,6], [1,4,7], [2,5,8], // Vertical
 			[0,4,8], [2,4,6] // Diagonal
 		];
+		let outcome = null;
 		for (const [a,b,c] of winPatterrns) {
-			if (this.grid[a] && this.grid[a] === this.grid[b] && this.grid[b] === this.grid[c])
-				return this.grid[a];
+			if (this.grid[a] && this.grid[a] === this.grid[b] && this.grid[b] === this.grid[c]) {
+				outcome = this.grid[a];
+				break;
+			}
 		}
-		if (this.grid.every(v => v !== null))
-			return 'tie';
-		return null;
+		if (outcome === null && this.grid.every(v => v !== null))
+			outcome = 'tie';
+		if (outcome) {
+			const update = {
+				status: {
+					type: outcome === 'tie' ? 'tie' : 'win',
+					actor: outcome === 'tie' ? null : outcome,
+					timestamp: new Date()
+				}
+			};
+			if (outcome !== 'tie') {
+				update[outcome] = {
+					score: this[outcome].score + 1
+				};
+			}
+			this.update(update as Partial<IGame>);
+		}
+		return outcome;
 	}
 
-	getVotingResults(preserve = false): number | null {
+	applyVotes(preserve = false): number | null {
 		let indexes = [0];
 		let max = 0;
 		for (let i = 0; i < 9; i++) {
@@ -81,11 +93,18 @@ export default class Game implements IGame{
 				max = count;
 			}
 		}
-		if (!preserve)
+		if (!preserve) {
 			this.voting = this.voting.map(_ => 0) as VotingGrid;
+		}
 		if (max === 0)
 			return null;
-		return indexes[Math.floor(Math.random() * indexes.length)];
+		const cell = indexes[Math.floor(Math.random() * indexes.length)];
+		this.grid[cell] = this.status.actor;
+		this.io.emit('gameUpdate', {
+			grid: this.grid,
+			voting: this.voting
+		});
+		return cell;
 	}
 
 	toJSON() {

@@ -3,21 +3,30 @@ import coloredTeam from '@/lib/coloredTeam';
 import formatStatusMessage from '@/lib/formatStatusMessage';
 import type Status from '@/shared/types/Status';
 import type TeamData from '@/shared/types/TeamData';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{
 	o: TeamData,
 	x: TeamData,
 	status: Status
 }>();
+const innerBarRef = ref<HTMLElement | null>(null);
 const statusMessage = computed(() => formatStatusMessage(props.status));
+onMounted(() => {
+	const val = (10_000 - Date.now() + props.status.timestamp.getTime()) / 10_000 * 100;
+	console.log(val);
+	innerBarRef.value!.style.width = `${val}%`;
+	setTimeout(() => {
+		innerBarRef.value!.style.width = '';
+	}, 0);
+});
 </script>
 
 <template>
 	<div class='scoreboard'>
 		<div class='status-message' v-html='statusMessage'></div>
 		<div class='status-bar'>
-			<div class='status-bar-inner' :data-actor='status.actor || "none"'></div>
+			<div class='status-bar-inner' :data-actor='status.actor || "none"' ref='innerBarRef'></div>
 		</div>
 		<div class='scores'>
 			<div class='team' data-team='x'>
@@ -56,9 +65,15 @@ const statusMessage = computed(() => formatStatusMessage(props.status));
 	background-color: #eee;
 }
 
-.status-bar-inner {
-	height: 100%;
+@keyframes progress {
+	to {
+		width: 0;
+	}
+}
 
+.status-bar-inner {
+	width: 100%;
+	height: 100%;
 	&[data-actor='x'] {
 		background-color: #f00;
 	}
