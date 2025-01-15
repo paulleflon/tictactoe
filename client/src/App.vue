@@ -22,6 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
+	<img src='/logo.png' alt='Tic Tac Toe Grid logo' />
 	<h1>Tic Tac Toe VS the World</h1>
 	<h2>You are playing with the <span v-html='coloredTeam(store.team)'></span> team</h2>
 	<TeamSelector :x-players='store.game ? store.game.x.playerCount : 0'
@@ -43,7 +44,10 @@ h1,
 h2 {
 	text-align: center;
 }
-
+img {
+	width: 100px;
+	margin: 0 auto;
+}
 footer {
 	width: 100%;
 	text-align: center;

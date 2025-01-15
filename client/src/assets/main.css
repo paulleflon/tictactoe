@@ -17,6 +17,7 @@ body {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
+	padding: 0 10px;
 }
 .colored-x {
 	color: var(--team-x-color);
