@@ -3,7 +3,7 @@ import coloredTeam from '@/lib/coloredTeam';
 import formatStatusMessage from '@/lib/formatStatusMessage';
 import type Status from '@/shared/types/Status';
 import type TeamData from '@/shared/types/TeamData';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
 	o: TeamData,
@@ -12,13 +12,12 @@ const props = defineProps<{
 }>();
 const innerBarRef = ref<HTMLElement | null>(null);
 const statusMessage = computed(() => formatStatusMessage(props.status));
-onMounted(() => {
-	const val = (10_000 - Date.now() + props.status.timestamp.getTime()) / 10_000 * 100;
-	innerBarRef.value!.style.width = `${val}%`;
-	setTimeout(() => {
-		innerBarRef.value!.style.width = '';
-	}, 0);
-});
+const animateProgressBar = () => {
+	const timeLeft = 3_000 - (Date.now() - props.status.timestamp.getTime());
+	innerBarRef.value!.style.width = `${(timeLeft / 3_000) * 100}%`;
+	requestAnimationFrame(animateProgressBar);
+};
+onMounted(animateProgressBar);
 </script>
 
 <template>
@@ -64,15 +63,9 @@ onMounted(() => {
 	background-color: #eee;
 }
 
-@keyframes progress {
-	to {
-		width: 0;
-	}
-}
-
 .status-bar-inner {
-	width: 100%;
 	height: 100%;
+
 	&[data-actor='x'] {
 		background-color: #f00;
 	}

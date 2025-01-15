@@ -13,8 +13,9 @@ socket.on('disconnect', () => {
 });
 
 socket.on('gameUpdate', (data) => {
-	console.log('[Socket] Received update')
+	console.log('[Socket] Received update');
 	deepUpdate(store.game, data);
+	store.game!.status.timestamp = new Date(store.game!.status.timestamp);
 });
 
 export default socket;
