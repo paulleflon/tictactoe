@@ -4,11 +4,8 @@ import type { IGame } from '../../shared/types/IGame';
 import Grid from './components/Grid.vue';
 import Scoreboard from './components/Scoreboard.vue';
 import TeamSelector from './components/TeamSelector.vue';
-import { store } from './lib/store';
 import coloredTeam from './lib/coloredTeam';
-import socket from './lib/socket';
-socket.connect();
-const loading = ref(true);
+import { store } from './lib/store';
 
 onMounted(() => {
 	fetch('http://localhost:3000/api/game')
@@ -21,26 +18,54 @@ onMounted(() => {
 					timestamp: new Date(data.status.timestamp)
 				}
 			};
-			loading.value = false;
 		});
 })
 </script>
 
 <template>
+	<h1>Tic Tac Toe VS the World</h1>
+	<h2>You are playing with the <span v-html='coloredTeam(store.team)'></span> team</h2>
 	<TeamSelector :x-players='store.game ? store.game.x.playerCount : 0'
 		:o-players='store.game ? store.game.o.playerCount : 0' v-if='store.team === null'></TeamSelector>
-	<div v-if='loading'>Loading...</div>
-	<div v-if='!loading && store.game'>
-		<h1>Tic Tac Toe World</h1>
-		<h2>You are playing with the <span v-html='coloredTeam(store.team)'></span> team</h2>
+	<div v-if='store.game'>
 		<Scoreboard :o='store.game.o' :x='store.game.x' :status='store.game.status'></Scoreboard>
 		<Grid :cells='store.game.grid' :votes='store.game.voteCounts' :status='store.game.status'></Grid>
 	</div>
+	<footer>
+		<p>
+			Made in 🇫🇷 by <a href='https://paulleflon.fr'>Paul Leflon</a>
+		</p>
+		<p>See source code & contribute on <a href='https://github.com/paulleflon/tictactoe'>GitHub</a>!</p>
+	</footer>
 </template>
 
 <style scoped>
 h1,
 h2 {
 	text-align: center;
+}
+
+footer {
+	width: 100%;
+	text-align: center;
+	font: 8pt 'Arial';
+	color: #444;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	padding: 10px 0;
+}
+
+footer p {
+	margin: 0;
+}
+
+footer a {
+	color: inherit;
+
+	&:hover {
+		text-decoration: none;
+	}
 }
 </style>

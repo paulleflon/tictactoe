@@ -5,7 +5,18 @@
 	--team-o-color-dark: darkblue;
 }
 body {
+	margin: 0;
 	font-family: Helvetica, sans-serif;
+	box-sizing: border-box;
+	height: 100vh;
+}
+
+#app {
+	position: relative;
+	height: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 }
 .colored-x {
 	color: var(--team-x-color);
