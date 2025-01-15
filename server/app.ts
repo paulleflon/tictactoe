@@ -24,12 +24,6 @@ app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(express.static('public'));
 
-game.grid = [
-	'x', 'x', 'o',null, null, null, 'o','x','o'
-];
-game.voting = [
-	0,0,0,0,5,10,0,0,1
-];
 
 // Game Loop
 setInterval(() => {
@@ -50,7 +44,6 @@ setInterval(() => {
 				timestamp: new Date()
 			},
 			grid: Array(9).fill(null),
-			voting: Array(9).fill(null)
 		})
 	}
 }, STEP_DURATION);	
