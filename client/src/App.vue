@@ -6,9 +6,8 @@ import Scoreboard from './components/Scoreboard.vue';
 import TeamSelector from './components/TeamSelector.vue';
 import coloredTeam from './lib/coloredTeam';
 import { store } from './lib/store';
-
 onMounted(() => {
-	fetch('http://localhost:3000/api/game')
+	fetch(`${import.meta.env.VITE_SERVER_URL}/api/game`)
 		.then(res => res.json())
 		.then((data: IGame) => {
 			store.game = {

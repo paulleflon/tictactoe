@@ -8,23 +8,21 @@ import { STEP_DURATION } from '@/shared/constants';
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-	cors: {
-		origin: '*',
-		methods: ['GET', 'POST']
-	}
-});
-const game = new Game(io);
-
-app.use(cors({
+const CORS_CONFIG = {
 	origin: '*',
 	methods: ['GET', 'POST']
-}));
+}
+const io = new Server(server, {
+	cors: CORS_CONFIG
+});
+
+app.use(cors(CORS_CONFIG));
 app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(express.static('public'));
 
 
+const game = new Game(io);
 // Game Loop
 setInterval(() => {
 	if (game.status.type === 'vote') {
