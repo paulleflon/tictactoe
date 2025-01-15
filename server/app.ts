@@ -4,6 +4,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import Game from './types/Game';
 import events from './events/main';
+import { STEP_DURATION } from '@/shared/constants';
 
 const app = express();
 const server = http.createServer(app);
@@ -52,7 +53,7 @@ setInterval(() => {
 			voting: Array(9).fill(null)
 		})
 	}
-}, 3_000);	
+}, STEP_DURATION);	
 
 
 app.get('/api/game', (req, res) => {

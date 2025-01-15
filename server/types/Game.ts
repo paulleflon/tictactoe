@@ -1,8 +1,8 @@
-import { CellValue, Grid, VotingGrid } from '@shared/types/Grid';
-import { IGame } from '@shared/types/IGame';
-import Status from '@shared/types/Status';
-import TeamData from '@shared/types/TeamData';
-import {deepUpdate} from '@shared/lib';
+import { CellValue, Grid, VotingGrid } from '@/shared/types/Grid';
+import { IGame } from '@/shared/types/IGame';
+import Status from '@/shared/types/Status';
+import TeamData from '@/shared/types/TeamData';
+import {deepUpdate} from '@/shared/lib';
 import { Server } from 'socket.io';
 
 export default class Game implements IGame{

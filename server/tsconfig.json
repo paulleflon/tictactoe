@@ -3,7 +3,7 @@
 		"esModuleInterop": true,
 		"baseUrl": ".",
 		"paths": {
-			"@shared/*": [
+			"@/shared/*": [
 				"../shared/*"
 			]
 		}

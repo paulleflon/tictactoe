@@ -1,9 +1,10 @@
 <script setup lang='ts'>
 import coloredTeam from '@/lib/coloredTeam';
 import formatStatusMessage from '@/lib/formatStatusMessage';
+import { STEP_DURATION } from '../../../shared/constants';
 import type Status from '@/shared/types/Status';
 import type TeamData from '@/shared/types/TeamData';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{
 	o: TeamData,
@@ -13,8 +14,8 @@ const props = defineProps<{
 const innerBarRef = ref<HTMLElement | null>(null);
 const statusMessage = computed(() => formatStatusMessage(props.status));
 const animateProgressBar = () => {
-	const timeLeft = 3_000 - (Date.now() - props.status.timestamp.getTime());
-	innerBarRef.value!.style.width = `${(timeLeft / 3_000) * 100}%`;
+	const timeLeft = STEP_DURATION - (Date.now() - props.status.timestamp.getTime());
+	innerBarRef.value!.style.width = `${(timeLeft / STEP_DURATION) * 100}%`;
 	requestAnimationFrame(animateProgressBar);
 };
 onMounted(animateProgressBar);

@@ -1,0 +1,1 @@
+export const STEP_DURATION = 10_000;
