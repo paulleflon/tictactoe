@@ -6,7 +6,7 @@ const voteEvent: SocketEvent = {
 	run(game: Game, socket, cell: number) {
 		if (game.status.type !== 'vote')
 			return;
-		game.addVote(cell);
+		game.addVote(socket.id, cell);
 	}
 }
 export default voteEvent;

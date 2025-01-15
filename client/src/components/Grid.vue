@@ -1,13 +1,13 @@
 <script setup lang='ts'>
 import coloredTeam from '@/lib/coloredTeam';
-import type { Grid, VotingGrid } from '@/shared/types/Grid';
+import type { Grid, GridVoteCounts } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
 import { store } from '@/lib/store';
 import socket from '@/lib/socket';
 import { ref, watch } from 'vue';
 const props = defineProps<{
 	cells: Grid,
-	votes: VotingGrid,
+	votes: GridVoteCounts,
 	status: Status
 }>();
 const hasVoted = ref(false);

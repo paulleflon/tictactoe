@@ -34,7 +34,7 @@ onMounted(() => {
 		<h1>Tic Tac Toe World</h1>
 		<h2>You are playing with the <span v-html='coloredTeam(store.team)'></span> team</h2>
 		<Scoreboard :o='store.game.o' :x='store.game.x' :status='store.game.status'></Scoreboard>
-		<Grid :cells='store.game.grid' :votes='store.game.voting' :status='store.game.status'></Grid>
+		<Grid :cells='store.game.grid' :votes='store.game.voteCounts' :status='store.game.status'></Grid>
 	</div>
 </template>
 

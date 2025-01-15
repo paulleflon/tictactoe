@@ -1,8 +1,8 @@
-import { CellValue, Grid, VotingGrid } from '@/shared/types/Grid';
+import { deepUpdate } from '@/shared/lib';
+import { CellValue, Grid, GridVoteCounts, GridVotes } from '@/shared/types/Grid';
 import { IGame } from '@/shared/types/IGame';
 import Status from '@/shared/types/Status';
 import TeamData from '@/shared/types/TeamData';
-import {deepUpdate} from '@/shared/lib';
 import { Server } from 'socket.io';
 
 export default class Game implements IGame{
@@ -10,8 +10,8 @@ export default class Game implements IGame{
 	o: TeamData;
 	x: TeamData;
 	grid: Grid;
-	voting: VotingGrid;
 	io: Server;
+	votes: GridVotes;
 	constructor(io: Server) {
 		this.io = io;
 		this.status = {
@@ -28,7 +28,15 @@ export default class Game implements IGame{
 			score: 0
 		};
 		this.grid = new Array(9).fill(null);
-		this.voting = new Array(9).fill(0);
+		this.votes = {};
+	}
+
+	get voteCounts(): GridVoteCounts {
+		const arr = new Array(9).fill(0);
+		for (const vote of Object.values<number>(this.votes)) {
+			arr[vote]++;
+		}
+		return arr;
 	}
 
 	updateStatus(status: Omit<Status, 'timestamp'>) {
@@ -43,9 +51,12 @@ export default class Game implements IGame{
 		deepUpdate(this, data);
 		this.io.emit('gameUpdate', data);
 	}
-	addVote(cell: number) {
-		this.voting[cell]++;
-		this.io.emit('gameUpdate', {voting: this.voting});
+	addVote(id: string, cell: number) {
+		if (this.votes[id] === cell)
+			delete this.votes[id];
+		else 
+			this.votes[id] = cell;
+		this.io.emit('gameUpdate', {voteCounts: this.voteCounts});
 	}
 
 	applyOutcome(): CellValue | 'tie' {
@@ -85,7 +96,7 @@ export default class Game implements IGame{
 		let indexes = [0];
 		let max = 0;
 		for (let i = 0; i < 9; i++) {
-			const count = this.voting[i];
+			const count = this.voteCounts[i];
 			if (count === max)
 				indexes.push(i);
 			if (count > max) {
@@ -93,16 +104,15 @@ export default class Game implements IGame{
 				max = count;
 			}
 		}
-		if (!preserve) {
-			this.voting = this.voting.map(_ => 0) as VotingGrid;
-		}
+		if (!preserve)
+			this.votes = {};
 		if (max === 0)
 			return null;
 		const cell = indexes[Math.floor(Math.random() * indexes.length)];
 		this.grid[cell] = this.status.actor;
 		this.io.emit('gameUpdate', {
 			grid: this.grid,
-			voting: this.voting
+			voteCounts: this.voteCounts
 		});
 		return cell;
 	}
@@ -113,7 +123,7 @@ export default class Game implements IGame{
 			o: this.o,
 			x: this.x,
 			grid: this.grid,
-			voting: this.voting
+			voteCounts: this.voteCounts
 		}
 	}
 
