@@ -1,4 +1,4 @@
-import { CellValue } from './Grid';
+import type { CellValue } from './Grid';
 
 export default interface Status {
 	type: 'win' | 'tie' | 'vote';
