@@ -11,7 +11,7 @@ type WinningConfiguration =
 	| 'top-right';
 export type { WinningConfiguration };
 
-export function winningConfiguration(grid: Grid): WinningConfiguration[] {
+export function gameOutcome(grid: Grid): WinningConfiguration[] {
 	const winningConfigurations = [
 		// horizontal
 		[0, 1, 2],
