@@ -3,8 +3,7 @@ import { store } from './store';
 import { deepUpdate } from '../../../shared/lib';
 import { watch } from 'vue';
 
-const URL = 'http://localhost:3000'; // Replace with your server URL
-const socket = io(URL);
+const socket = io(import.meta.env.VITE_SERVER_URL);
 socket.on('connect', () => {
 	console.log('[Socket] Connected to server');
 });
