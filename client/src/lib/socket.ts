@@ -6,6 +6,9 @@ import { watch } from 'vue';
 const socket = io(import.meta.env.VITE_SERVER_URL);
 socket.on('connect', () => {
 	console.log('[Socket] Connected to server');
+	if (store.team) {
+		socket.emit('teamPick', null, store.team);
+	}
 });
 
 socket.on('disconnect', () => {
