@@ -23,7 +23,7 @@ const winIndicatorClass = computed(() => props.status.type === 'win' ? `win-indi
 
 <template>
 	<div class='grid'>
-		<div :class='winIndicatorClass' v-if='true || props.status.type === "win"'></div>
+		<div :class='winIndicatorClass' v-if='props.status.type === "win"'></div>
 		<table>
 			<tbody>
 				<tr v-for='i in 3'>
@@ -135,7 +135,7 @@ const winIndicatorClass = computed(() => props.status.type === 'win' ? `win-indi
 	}
 
 	&.center {
-		left: 49.5%;
+		left: 50%;
 	}
 
 	&.right {
