@@ -11,7 +11,7 @@ type WinningConfiguration =
 	| 'top-right';
 export type { WinningConfiguration };
 
-export function winningConfiguration(grid: Grid): WinningConfiguration | null {
+export function winningConfiguration(grid: Grid): WinningConfiguration[] {
 	const winningConfigurations = [
 		// horizontal
 		[0, 1, 2],
@@ -35,12 +35,12 @@ export function winningConfiguration(grid: Grid): WinningConfiguration | null {
 		'top-left',
 		'top-right',
 	];
-
+	const winningConfigs: WinningConfiguration[] = [];
 	for (const configuration of winningConfigurations) {
 		const [a, b, c] = configuration;
 		if (grid[a] && grid[a] === grid[b] && grid[a] === grid[c]) {
-			return configNames[winningConfigurations.indexOf(configuration)];
+			winningConfigs.push(configNames[winningConfigurations.indexOf(configuration)]);
 		}
 	}
-	return null;
+	return winningConfigs;
 }

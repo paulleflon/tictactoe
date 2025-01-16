@@ -18,12 +18,12 @@ const vote = (cell: number) => {
 	}
 };
 
-const winIndicatorClass = computed(() => props.status.type === 'win' ? `win-indicator ${props.status.actor} ${winningConfiguration(props.cells)}` : '');
 </script>
 
 <template>
 	<div class='grid'>
-		<div :class='winIndicatorClass' v-if='props.status.type === "win"'></div>
+		<div v-if='props.status.type === "win"' v-for='config of winningConfiguration(props.cells)' :key='config'
+			:class='`win-indicator ${props.status.actor} ${config}`'></div>
 		<table>
 			<tbody>
 				<tr v-for='i in 3'>
