@@ -1,4 +1,5 @@
-<center><img src="readme-logo.png" width="128">
+<center>
+  <img src="readme-logo.png" width="128">
 
 # Tic-Tac-Toe VS The World
 ![Bun](https://img.shields.io/badge/BUN-F472B6?logo=bun&style=for-the-badge)
@@ -6,7 +7,6 @@
 ![Vue.js](https://img.shields.io/badge/Vue.js-42B883?logo=vue.js&style=for-the-badge&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-373737?logo=express&style=for-the-badge&logoColor=white)
 ![Socket.io](https://img.shields.io/badge/socket.io-25C2A0?logo=socket.io&style=for-the-badge&logoColor=white) 
-Play Tic-Tac-Toe against the world! Vote for the cell to place your mark. The cell with the most votes wins. Simple, fun, and engaging!
 </center>
 
 ## About
