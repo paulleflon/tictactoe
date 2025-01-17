@@ -24,7 +24,7 @@ onMounted(animateProgressBar);
 	<div class='scoreboard'>
 		<div class='status-message' v-html='statusMessage'></div>
 		<div class='status-bar'>
-			<div class='status-bar-inner' :data-actor='status.actor || "none"' ref='innerBarRef'></div>
+			<div class='status-bar-inner' :data-actor='status.type === "tie" ? "none" : status.actor' ref='innerBarRef'></div>
 		</div>
 		<div class='scores'>
 			<div class='team' data-team='x'>
