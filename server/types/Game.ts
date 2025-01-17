@@ -80,7 +80,7 @@ export default class Game implements IGame{
 			const update = {
 				status: {
 					type: outcome === 'tie' ? 'tie' : 'win',
-					actor: outcome === 'tie' ? null : outcome,
+					actor: outcome === 'tie' ? this.status.actor : outcome,
 					timestamp: new Date()
 				}
 			};
