@@ -1,22 +1,52 @@
 <script setup lang='ts'>
-import {coloredTeam, gameOutcome}from '@/lib/utils';
 import socket from '@/lib/socket';
 import { store } from '@/lib/store';
+import { gameOutcome } from '@/lib/utils';
 import type { Grid, GridVoteCounts } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
-import { computed, ref, Transition, watch } from 'vue';
+import Cell from './Cell.vue';
 import WinningIndicator from './WinningIndicator.vue';
+import { ref, type VNodeRef } from 'vue';
 const props = defineProps<{
 	cells: Grid,
 	votes: GridVoteCounts,
 	status: Status
 }>();
-
 const vote = (cell: number) => {
+	console.log('vote', cell);
 	if (props.status.type === 'vote' && props.status.actor === store.team && props.cells[cell] === null) {
+		console.log('?');
 		socket.emit('vote', cell);
 	}
 };
+
+const mod = (i: number, m: number): number => {
+	return ((i % m) + m) % m;
+}
+const focusMove = (from: number, direction: string) => {
+	console.log('focusMove', from, direction);
+	let target;
+	let row = Math.floor(from / 3);
+	let col = from % 3;
+	switch (direction) {
+		case 'up':
+			target = col + mod(row - 1, 3) * 3;
+			break;
+		case 'down':
+			target = col + mod(row + 1, 3) * 3;
+			break;
+		case 'left':
+			target = row * 3 + mod(col - 1, 3);
+			break;
+		case 'right':
+			target = row * 3 + mod(col + 1, 3);
+			break;
+	}
+	const targetElm = document.querySelector(`.cell[data-index='${target}']`);
+	if (targetElm) {
+		(targetElm as HTMLElement).focus();
+	}
+}
 
 </script>
 
@@ -27,23 +57,11 @@ const vote = (cell: number) => {
 		<table>
 			<tbody>
 				<tr v-for='i in 3'>
-					<td v-for='j in 3' @click='vote(3 * (i - 1) + j - 1)'>
-						<Transition name='new-cell'>
-							<div v-if='props.cells[3 * (i - 1) + j - 1] !== null'
-								v-html='coloredTeam(props.cells[3 * (i - 1) + j - 1])'>
-							</div>
-						</Transition>
-						<Transition name='vote-cell'>
-							<div class='voting-cell'
-								v-if='status.type === "vote" && props.votes[3 * (i - 1) + j - 1] > 0'>
-								<span>
-									{{ props.status.actor }}
-								</span>
-								<div class='vote-count'>
-									{{ props.votes[3 * (i - 1) + j - 1] }}
-								</div>
-							</div>
-						</Transition>
+					<td v-for='j in 3'>
+						<Cell :value='props.cells[3 * (i - 1) + j - 1]' :voteCount='props.votes[3 * (i - 1) + j - 1]'
+							:voteActor='props.status.type === "vote" ? props.status.actor : null'
+							:index='3 * (i - 1) + j - 1' @vote='vote(3 * (i - 1) + j - 1)'
+							@focusMove='focusMove(3 * (i - 1) + j - 1, $event)' />
 					</td>
 				</tr>
 			</tbody>
@@ -52,30 +70,6 @@ const vote = (cell: number) => {
 </template>
 
 <style scoped>
-.new-cell-enter-active {
-	transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 2.55);
-}
-
-.new-cell-leave-active {
-	transition: transform .8s ease;
-}
-
-.new-cell-enter-from,
-.new-cell-leave-to {
-	transform: scale(0);
-}
-
-.vote-cell-enter-active,
-.vote-cell-leave-active {
-	transition: all .15s ease;
-}
-
-.vote-cell-enter-from,
-.vote-cell-leave-to {
-	opacity: 0;
-	filter: blur(10px);
-}
-
 .grid {
 	position: relative;
 	width: 400px;
@@ -99,34 +93,5 @@ td {
 	width: 33%;
 	height: 33%;
 	border: 1px solid black;
-	cursor: pointer;
-	vertical-align: middle;
-	text-align: center;
-	font: bold 24pt Helvetica;
-	text-transform: uppercase;
-
-	&:hover {
-		background-color: #f0f0f0;
-	}
-}
-
-.voting-cell {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-}
-
-.vote-count {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	padding: 2px 5px;
-	font: 12pt Helvetica;
 }
 </style>
