@@ -6,17 +6,14 @@ import type { Grid, GridVoteCounts } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
 import Cell from './Cell.vue';
 import WinningIndicator from './WinningIndicator.vue';
-import { ref, type VNodeRef } from 'vue';
 const props = defineProps<{
 	cells: Grid,
 	votes: GridVoteCounts,
 	status: Status
 }>();
 const vote = (cell: number) => {
-	console.log('vote', cell);
 	if (props.status.type === 'vote' && props.status.actor === store.team && props.cells[cell] === null) {
-		console.log('?');
-		socket.emit('vote', cell);
+		socket.emit('vote', cell, store.team);
 	}
 };
 

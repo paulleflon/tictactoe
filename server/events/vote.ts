@@ -3,8 +3,8 @@ import SocketEvent from '../types/SocketEvent';
 
 const voteEvent: SocketEvent = {
 	name: 'vote',
-	run(game: Game, socket, cell: number) {
-		if (game.status.type !== 'vote')
+	run(game: Game, socket, cell: number, team: string) {
+		if (game.status.type !== 'vote' || game.status.actor !== team)
 			return;
 		game.addVote(socket.id, cell);
 	}
