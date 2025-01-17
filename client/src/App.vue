@@ -6,6 +6,9 @@ import Scoreboard from './components/Scoreboard.vue';
 import TeamSelector from './components/TeamSelector.vue';
 import { coloredTeam } from './lib/utils';
 import { store } from './lib/store';
+
+const buildTime = import.meta.env.VITE_BUILD_TIME;
+const commitHash = import.meta.env.VITE_GIT_COMMIT_HASH;
 onMounted(() => {
 	fetch(`${import.meta.env.VITE_SERVER_URL}/api/game`)
 		.then(res => res.json())
@@ -33,9 +36,13 @@ onMounted(() => {
 	</div>
 	<footer>
 		<p>
-			Made in 🇫🇷 by <a href='https://paulleflon.fr'>Paul Leflon</a>
+			Made in 🇫🇷 by <a href='https://paulleflon.fr' target='_blank'>Paul Leflon</a>
 		</p>
-		<p>See source code & contribute on <a href='https://github.com/paulleflon/tictactoe'>GitHub</a>!</p>
+		<p>See source code & contribute on <a href='https://github.com/paulleflon/tictactoe' target='_blank'>GitHub</a>!
+		</p>
+		<hr width='50' />
+		<p>Built on {{ buildTime }} | Commit <a :href='`https://github.com/paulleflon/tictactoe/commit/${commitHash}`'
+				target='_blank'>{{ commitHash }}</a></p>
 	</footer>
 </template>
 
