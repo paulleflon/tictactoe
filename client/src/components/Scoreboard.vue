@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { coloredTeam, formatStatusMessage } from '@/lib/utils';
+import { coloredTeam, formatStatusMessage, playerCount } from '@/lib/utils';
 import { STEP_DURATION } from '../../../shared/constants';
 import type Status from '@/shared/types/Status';
 import type TeamData from '@/shared/types/TeamData';
@@ -30,12 +30,12 @@ onMounted(animateProgressBar);
 			<div class='team' data-team='x'>
 				<div class='name' v-html='coloredTeam("x")'></div>
 				<div class='score'>{{ x.score }}</div>
-				<div class='player-count'>{{ x.playerCount }} players</div>
+				<div class='player-count'>{{ playerCount(x.playerCount) }}</div>
 			</div>
 			<div class='team' data-team='o'>
 				<div class='name' v-html='coloredTeam("o")'></div>
 				<div class='score'>{{ o.score }}</div>
-				<div class='player-count'>{{ o.playerCount }} players</div>
+				<div class='player-count'>{{ playerCount(o.playerCount) }}</div>
 			</div>
 		</div>
 	</div>

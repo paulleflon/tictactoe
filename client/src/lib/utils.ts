@@ -6,6 +6,10 @@ export function coloredTeam(team: CellValue): string {
 	return `<span class='colored-${team}'>${team.toUpperCase()}</span>`;
 }
 
+export function playerCount(count: number): string {
+	return count === 1 ? '1 player' : `${count} players`;
+}
+
 const SENTENCES = {
 	win: 'Team $ won! Starting next round...',
 	tie: "It's a tie! Starting next round...",

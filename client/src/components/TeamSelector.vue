@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import { store } from '@/lib/store';
+import { playerCount } from '@/lib/utils';
 const props = defineProps<{
 	xPlayers: number;
 	oPlayers: number;
@@ -14,12 +15,12 @@ function pickTeam(team: 'x' | 'o') {
 		<div class="buttons">
 			<div class="button" data-team="x" @click='pickTeam("x")'>
 				<div class="name">X</div>
-				<div class="player-count">{{ xPlayers }} players</div>
+				<div class="player-count">{{ playerCount(xPlayers) }}</div>
 			</div>
 			<div class="or">OR</div>
 			<div class="button" data-team="o" @click='pickTeam("o")'>
 				<div class="name">O</div>
-				<div class="player-count">{{ oPlayers }} players</div>
+				<div class="player-count">{{ playerCount(oPlayers) }}</div>
 			</div>
 		</div>
 	</div>
