@@ -14,6 +14,8 @@ const props = defineProps<{
 .win-indicator {
 	position: absolute;
 	top: 82.5%;
+	width: 0;
+	height: 0;
 	border-radius: 10em;
 	z-index: 1;
 	animation-duration: 3333ms;
@@ -85,7 +87,6 @@ const props = defineProps<{
 }
 
 @keyframes strike-tr {
-
 	0%,
 	49% {
 		top: calc(1% * 1.414);
