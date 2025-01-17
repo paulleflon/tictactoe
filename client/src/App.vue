@@ -4,7 +4,7 @@ import type { IGame } from '../../shared/types/IGame';
 import Grid from './components/Grid.vue';
 import Scoreboard from './components/Scoreboard.vue';
 import TeamSelector from './components/TeamSelector.vue';
-import coloredTeam from './lib/coloredTeam';
+import { coloredTeam } from './lib/utils';
 import { store } from './lib/store';
 onMounted(() => {
 	fetch(`${import.meta.env.VITE_SERVER_URL}/api/game`)
@@ -44,10 +44,12 @@ h1,
 h2 {
 	text-align: center;
 }
+
 img {
 	width: 100px;
 	margin: 0 auto;
 }
+
 footer {
 	width: 100%;
 	text-align: center;

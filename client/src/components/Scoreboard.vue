@@ -1,6 +1,5 @@
 <script setup lang='ts'>
-import coloredTeam from '@/lib/coloredTeam';
-import formatStatusMessage from '@/lib/formatStatusMessage';
+import { coloredTeam, formatStatusMessage } from '@/lib/utils';
 import { STEP_DURATION } from '../../../shared/constants';
 import type Status from '@/shared/types/Status';
 import type TeamData from '@/shared/types/TeamData';

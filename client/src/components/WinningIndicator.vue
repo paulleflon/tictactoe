@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { type WinningConfiguration } from '@/lib/win';
+import { type WinningConfiguration } from '@/lib/utils';
 import type { CellValue } from '@/shared/types/Grid';
 
 const props = defineProps<{

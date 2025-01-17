@@ -1,8 +1,7 @@
 <script setup lang='ts'>
-import coloredTeam from '@/lib/coloredTeam';
+import {coloredTeam, gameOutcome}from '@/lib/utils';
 import socket from '@/lib/socket';
 import { store } from '@/lib/store';
-import { gameOutcome } from '@/lib/win';
 import type { Grid, GridVoteCounts } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
 import { computed, ref, Transition, watch } from 'vue';
