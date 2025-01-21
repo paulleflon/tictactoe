@@ -1,10 +1,5 @@
-import type { CellValue, Grid } from '@/shared/types/Grid';
+import type { Grid } from '@/shared/types/Grid';
 import type Status from '@/shared/types/Status';
-
-export function coloredTeam(team: CellValue): string {
-	if (team === null) return '';
-	return `<span class='colored-${team}'>${team.toUpperCase()}</span>`;
-}
 
 export function playerCount(count: number): string {
 	return count === 1 ? '1 player' : `${count} players`;
@@ -16,7 +11,7 @@ const SENTENCES = {
 	vote: 'Team $ is voting...',
 };
 export function formatStatusMessage(status: Status): string {
-	return SENTENCES[status.type].replace('$', coloredTeam(status.actor));
+	return SENTENCES[status.type].replace('$', status.actor.toUpperCase());
 }
 
 type WinningConfiguration =

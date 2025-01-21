@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import type { IGame } from '../../shared/types/IGame';
+import ColoredTeam from './components/ColoredTeam.vue';
 import Grid from './components/Grid.vue';
 import Scoreboard from './components/Scoreboard.vue';
 import TeamSelector from './components/TeamSelector.vue';
-import { coloredTeam } from './lib/utils';
 import { store } from './lib/store';
 
 const buildTime = import.meta.env.VITE_BUILD_TIME;
@@ -27,7 +27,9 @@ onMounted(() => {
 <template>
 	<img src='/logo.png' alt='Tic Tac Toe Grid logo' />
 	<h1>Tic Tac Toe VS the World</h1>
-	<h2>You are playing with the <span v-html='coloredTeam(store.team)'></span> team</h2>
+	<h2>You are playing with the
+		<ColoredTeam :team='store.team' /> team
+	</h2>
 	<TeamSelector :x-players='store.game ? store.game.x.playerCount : 0'
 		:o-players='store.game ? store.game.o.playerCount : 0' v-if='store.team === null'></TeamSelector>
 	<div v-if='store.game'>

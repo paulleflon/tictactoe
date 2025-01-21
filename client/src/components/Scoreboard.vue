@@ -1,7 +1,8 @@
 <script setup lang='ts'>
-import { coloredTeam, formatStatusMessage, playerCount } from '@/lib/utils';
+import { formatStatusMessage, playerCount } from '@/lib/utils';
 import { STEP_DURATION } from '../../../shared/constants';
 import type Status from '@/shared/types/Status';
+import ColoredTeam from './ColoredTeam.vue';
 import type TeamData from '@/shared/types/TeamData';
 import { computed, onMounted, ref } from 'vue';
 
@@ -29,12 +30,16 @@ onMounted(animateProgressBar);
 		</div>
 		<div class='scores'>
 			<div class='team' data-team='x'>
-				<div class='name' v-html='coloredTeam("x")'></div>
+				<div class='name'>
+					<ColoredTeam team='x' />
+				</div>
 				<div class='score'>{{ x.score }}</div>
 				<div class='player-count'>{{ playerCount(x.playerCount) }}</div>
 			</div>
 			<div class='team' data-team='o'>
-				<div class='name' v-html='coloredTeam("o")'></div>
+				<div class='name'>
+					<ColoredTeam team='o' />
+				</div>
 				<div class='score'>{{ o.score }}</div>
 				<div class='player-count'>{{ playerCount(o.playerCount) }}</div>
 			</div>

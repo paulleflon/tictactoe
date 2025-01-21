@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 import type { CellValue } from '@/shared/types/Grid';
-import { coloredTeam } from '@/lib/utils';
+import ColoredTeam from './ColoredTeam.vue';
 import { Transition } from 'vue';
 
 const props = defineProps<{
@@ -23,7 +23,7 @@ const keyDown = (e: KeyboardEvent) => {
 <template>
 	<div class='cell' :data-index='index' @click='emit("vote")' @keydown='keyDown' :tabindex='props.index + 1'>
 		<Transition name='new-cell'>
-			<div v-if='props.value !== null' v-html='coloredTeam(props.value)'></div>
+			<ColoredTeam :team='props.value' v-if='props.value !== null' />
 		</Transition>
 		<Transition name='vote-cell'>
 			<div class='voting-cell' v-if='props.voteActor && props.voteCount > 0'>
