@@ -3,12 +3,24 @@
 	--team-x-color-dark: darkred;
 	--team-o-color: blue;
 	--team-o-color-dark: darkblue;
+	--bg-color: #F8F8FF;
+	--text-color: #101720;
 }
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-color: #101720;
+		--text-color: #F8F8FF;
+	}
+}
+
 body {
 	margin: 0;
 	font-family: Helvetica, sans-serif;
 	box-sizing: border-box;
 	height: 100vh;
+	background-color: var(--bg-color);
+	color: var(--text-color);
 }
 
 #app {

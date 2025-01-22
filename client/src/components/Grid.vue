@@ -79,7 +79,6 @@ const focusMove = (from: number, direction: string) => {
 
 table {
 	position: relative;
-	border: 1px solid black;
 	border-collapse: collapse;
 	width: 100%;
 	height: 100%;
@@ -89,6 +88,6 @@ td {
 	position: relative;
 	width: 33%;
 	height: 33%;
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 }
 </style>

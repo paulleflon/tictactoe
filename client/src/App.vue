@@ -63,7 +63,8 @@ footer {
 	width: 100%;
 	text-align: center;
 	font: 8pt 'Arial';
-	color: #444;
+	color: var(--text-color);
+	opacity: .7;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -74,7 +75,6 @@ footer {
 footer p {
 	margin: 0;
 }
-
 footer a {
 	color: inherit;
 
