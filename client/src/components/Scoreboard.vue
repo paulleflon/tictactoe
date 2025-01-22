@@ -49,7 +49,7 @@ onMounted(animateProgressBar);
 
 <style scoped>
 .scoreboard {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	border-radius: 10px;
 	margin: 20px auto;
 	text-align: center;
@@ -96,7 +96,8 @@ onMounted(animateProgressBar);
 		position: absolute;
 		width: 1px;
 		height: 100%;
-		background: #aaa;
+		background: var(--text-color);
+		opacity: .5;
 	}
 }
 

@@ -51,7 +51,7 @@ const keyDown = (e: KeyboardEvent) => {
 	text-transform: capitalize;
 
 	&:hover {
-		background-color: #f0f0f0;
+		background-color: rgba(125, 125, 125, 0.1);
 	}
 }
 
